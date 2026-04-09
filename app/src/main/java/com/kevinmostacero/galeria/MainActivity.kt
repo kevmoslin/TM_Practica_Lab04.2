@@ -1,20 +1,42 @@
 package com.kevinmostacero.galeria
 
 import android.os.Bundle
-import androidx.activity.enableEdgeToEdge
+import android.widget.ImageView
 import androidx.appcompat.app.AppCompatActivity
-import androidx.core.view.ViewCompat
-import androidx.core.view.WindowInsetsCompat
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 
 class MainActivity : AppCompatActivity() {
+
+    private lateinit var imageView: ImageView
+
+    private val imagenes = intArrayOf(
+        R.drawable.pic01,
+        R.drawable.pic02,
+        R.drawable.pic03,
+        R.drawable.pic04,
+        R.drawable.pic05,
+        R.drawable.pic06,
+        R.drawable.pic07,
+        R.drawable.pic08
+    )
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        enableEdgeToEdge()
         setContentView(R.layout.activity_main)
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main)) { v, insets ->
-            val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
-            insets
+
+        imageView = findViewById(R.id.imageView)
+        val recyclerView = findViewById<RecyclerView>(R.id.recyclerView)
+
+        recyclerView.layoutManager =
+            LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false)
+
+        val adapter = ImagenAdapter(imagenes) { position ->
+            imageView.setImageResource(imagenes[position])
         }
+
+        recyclerView.adapter = adapter
+
+        imageView.setImageResource(imagenes[0])
     }
 }
